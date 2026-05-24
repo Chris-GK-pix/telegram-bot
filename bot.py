@@ -201,8 +201,15 @@ async def announce(update: Update,
     if update.effective_user.id != ADMIN_ID:
         return
 
-    message=" ".join(
-        context.args
+    if not update.message.text:
+
+        return
+
+    # Keep original formatting
+    message = update.message.text.replace(
+        "/announce ",
+        "",
+        1
     )
 
     with open(
@@ -210,7 +217,7 @@ async def announce(update: Update,
         "r"
     ) as f:
 
-        users=json.load(f)
+        users = json.load(f)
 
     for user in users:
 
